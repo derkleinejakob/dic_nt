@@ -1,32 +1,47 @@
 package gui;
 
-import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import model.Item;
-import model.*;
-
-import java.util.Timer;
-import java.util.TimerTask;
+import javafx.scene.text.Font;
+import model.GameMode;
 
 
 public class GameView extends ApplicationView {
     private GameMode game;
-    private GridPane pane;
+    private BorderPane pane;
     private ItemPane left, right;
+    private boolean waiting;
 
-    public GameView() {
+    public GameView(MainGUI gui) {
+        super(gui);
+
         game = new GameMode();
-        pane = new GridPane();
+        GridPane centerPane = new GridPane();
         left = new ItemPane(event -> reactOnClick(false));
         right = new ItemPane(event -> reactOnClick(true));
 
-        pane.add(left, 0, 0);
-        pane.add(right, 1, 0);
+        centerPane.setPadding(new Insets(0));
+        centerPane.add(left, 0, 0);
+        centerPane.add(new Separator(Orientation.VERTICAL), 1, 0);
+        centerPane.add(right, 2, 0);
 
         left.setItem(game.getItem1());
         right.setItem(game.getItem2());
-
+        pane = new BorderPane(centerPane);
+        Label scoreLabel = new Label();
+        scoreLabel.setFont(new Font(22));
+        scoreLabel.textProperty().bind(game.scorePropertyProperty().asString("Score: %d"));
+        HBox bottomPane = new HBox(scoreLabel);
+        bottomPane.setAlignment(Pos.CENTER_RIGHT);
+        pane.setBottom(bottomPane);
     }
 
     @Override
@@ -35,28 +50,35 @@ public class GameView extends ApplicationView {
     }
 
     private void reactOnClick(boolean rightClick) {
-        boolean correct = game.receiveInput(rightClick);
-        left.showResult();
-        right.showResult();
-        System.out.println("Changed");
-//        Platform.runLater(() -> {
-//            System.out.println("Going to sleep now.");
-//            try {
-////                Thread.sleep(1000);
-//                System.out.println("SLEPT");
-//                if(correct) {
-//                    left.setItem(game.getItem1());
-//                    right.setItem(game.getItem2());
-//                } else {
-//                    System.out.println("FALSCH!!!!");
-////            getGUI().setPane(LostPane);
-//                }
-//            } catch(InterruptedException e) {
-//                System.err.println("Interrupted: "+e);
-//            }
-//        });
-    }
+        if(! waiting) {
+            waiting = true;
 
-    private void showResultsAndWait() {
+            boolean correct = game.receiveInput(rightClick);
+
+            left.showResult();
+            right.showResult();
+            (rightClick ? right : left).colorize(correct);
+
+            Task<Void> sleeper = new Task<>() {
+                @Override
+                protected Void call() {
+                    try {
+                        Thread.sleep(750);
+                    } catch (InterruptedException ignored) {
+                    }
+                    return null;
+                }
+            };
+            sleeper.setOnSucceeded(event -> {
+                waiting = false;
+                if (correct) {
+                    left.switchTo(game.getItem1());
+                    right.setItem(game.getItem2());
+                } else {
+                    getGUI().setPane(new LostView(getGUI(), game.getScore()));
+                }
+            });
+            new Thread(sleeper).start();
+        }
     }
 }

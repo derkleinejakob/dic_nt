@@ -1,30 +1,26 @@
 package gui;
 
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import javafx.util.Duration;
 import model.Item;
+
+import java.awt.*;
 
 
 public class ItemPane extends BorderPane {
     private Label titleLabel, emissionLabel, descriptionLabel;
-    private double emissionsValue;
 
     public ItemPane(EventHandler<MouseEvent> onclick) {
-        setStyle("-fx-cursor: hand");
         GridPane.setHgrow(this, Priority.ALWAYS);
         GridPane.setVgrow(this, Priority.ALWAYS);
         addEventHandler(MouseEvent.MOUSE_CLICKED, onclick);
+        setStyle("-fx-cursor: hand; ");
 
         titleLabel = new Label();
         titleLabel.setFont(new Font(30));
@@ -37,16 +33,24 @@ public class ItemPane extends BorderPane {
         setCenter(centerBox);
 
     }
+
     public void setItem(Item item) {
+        switchTo(item);
+        emissionLabel.setOpacity(0);
+    }
+
+    public void switchTo(Item item) {
+        setBackground(null);
         titleLabel.setText(item.title());
         descriptionLabel.setText(item.description());
-        emissionLabel.setText(String.valueOf(item.emissions()));
-        emissionLabel.setOpacity(0);
-
-        emissionsValue = item.emissions();
+        emissionLabel.setText(item.emissions() + "g CO₂");
     }
 
     public void showResult() {
         emissionLabel.setOpacity(1);
+    }
+
+    public void colorize(boolean isCorrect) {
+        setBackground(new Background(new BackgroundFill(Paint.valueOf(isCorrect ? "GREEN" : "RED"), null, null)));
     }
 }

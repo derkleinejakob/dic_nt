@@ -15,7 +15,7 @@ public class MainGUI extends Application {
     public void start(Stage primaryStage) {
         mainPane = new BorderPane();
         Scene mainScene = new Scene(mainPane);
-        setPane(new GameView());
+        setPane(new MenuView(this));
 
         primaryStage.setTitle("Higher Impact - prototyp 0.0");
         primaryStage.setScene(mainScene);

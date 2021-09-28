@@ -12,6 +12,9 @@ public class RandomItemFetcher {
     }
 
     public Item fetchItem(){
+        if(items.size() == 0) {
+            throw new IllegalArgumentException("No items loaded!");
+        }
         int rd = new Random().nextInt(items.size());
         return items.get(rd);
     }

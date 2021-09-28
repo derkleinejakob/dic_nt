@@ -1,25 +1,28 @@
 package model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class GameMode {
     private RandomItemFetcher itemFetcher;
 
     private Item item1;
     private Item item2;
 
-    private int score;
+    private IntegerProperty scoreProperty;
 
     public GameMode(){
         itemFetcher = new RandomItemFetcher();
         item1 = itemFetcher.fetchItem();
         item2 = itemFetcher.fetchItem(item1);
-        score = 0;
+        scoreProperty = new SimpleIntegerProperty(0);
     }
 
     public boolean receiveInput(boolean rightClicked){
         if (item1.emissions() == item2.emissions() || rightClicked == rightHigher()){
             item1 = item2;
             item2 = itemFetcher.fetchItem(item1);
-            score++;
+            scoreProperty.set(scoreProperty.get() + 1);
             return true;
         }else {
             return false;
@@ -35,5 +38,13 @@ public class GameMode {
 
     public Item getItem2() {
         return item2;
+    }
+
+    public int getScore() {
+        return scoreProperty.get();
+    }
+
+    public IntegerProperty scorePropertyProperty() {
+        return scoreProperty;
     }
 }
