@@ -40,7 +40,8 @@ public class ItemPane extends BorderPane {
     }
 
     public void switchTo(Item item) {
-        setBackground(null);
+//        setBackground(null);
+        setStyle("-fx-background-image: url(file:src/main/resources/" + item.image() + ");");
         titleLabel.setText(item.title());
         descriptionLabel.setText(item.description());
         emissionLabel.setText(item.emissions() + "g CO₂");
