@@ -33,7 +33,7 @@ public class CSVFileManagement implements FileManagement {
 //            int score = Integer.parseInt(tokens[0]);
 //            LocalDateTime startTime = LocalDateTime.parse(tokens[1], FORMATTER);
 //            LocalDateTime endTime = LocalDateTime.parse(tokens[2], FORMATTER);
-            return new Item("", "", 1.0, "");
+            return new Item(tokens[0], tokens[1], Double.parseDouble(tokens[2]), tokens[3]);
         } catch (NumberFormatException | DateTimeParseException e) {
             System.err.println("Skipping invalid entry '" + line + "': " + e);
             return null;
@@ -58,5 +58,9 @@ public class CSVFileManagement implements FileManagement {
             System.err.println("Error saving entry: " + e);
             return false;
         }
+    }
+
+    public static void main(String[] args) {
+        new CSVFileManagement().save(new Item("Fisch", "tötet.", 1.0, ""));
     }
 }

@@ -1,13 +1,14 @@
 package model;
 
+import java.util.List;
 import java.util.Random;
 import java.util.ArrayList;
 
 public class RandomItemFetcher {
-    private ArrayList<Item> items;
+    private List<Item> items;
 
     public RandomItemFetcher(){
-        items = (ArrayList<Item>) new CSVFileManagement().retrieve();
+        items = new CSVFileManagement().retrieve();
     }
 
     public Item fetchItem(){

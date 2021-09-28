@@ -15,8 +15,8 @@ public class GameMode {
         score = 0;
     }
 
-    public boolean reciveInput(boolean rightKlicked){
-        if (rightKlicked == rightHiegher()){
+    public boolean receiveInput(boolean rightClicked){
+        if (item1.emissions() == item2.emissions() || rightClicked == rightHigher()){
             item1 = item2;
             item2 = itemFetcher.fetchItem(item1);
             score++;
@@ -25,7 +25,15 @@ public class GameMode {
             return false;
         }
     }
-    public boolean rightHiegher(){
-        return (item1.getEmisions() >= item2.getEmisions());
+    public boolean rightHigher(){
+        return (item1.emissions() >= item2.emissions());
+    }
+
+    public Item getItem1() {
+        return item1;
+    }
+
+    public Item getItem2() {
+        return item2;
     }
 }
