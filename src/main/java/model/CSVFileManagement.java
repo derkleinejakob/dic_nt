@@ -33,7 +33,7 @@ public class CSVFileManagement implements FileManagement {
 //            int score = Integer.parseInt(tokens[0]);
 //            LocalDateTime startTime = LocalDateTime.parse(tokens[1], FORMATTER);
 //            LocalDateTime endTime = LocalDateTime.parse(tokens[2], FORMATTER);
-            return new Item("", "", "");
+            return new Item("", "", 1.0, "");
         } catch (NumberFormatException | DateTimeParseException e) {
             System.err.println("Skipping invalid entry '" + line + "': " + e);
             return null;

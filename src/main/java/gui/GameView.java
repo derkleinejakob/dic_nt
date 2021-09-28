@@ -17,8 +17,8 @@ public class GameView extends ApplicationView {
         right = new ItemPane(event -> {
             System.out.println("r");/* game.receiveInput(true); */});
 
-        left.setItem(new Item("Apfel", "Aus dem Kühlhaus", ""));
-        right.setItem(new Item("Mango", "Aus Peru eingeflogen", ""));
+        left.setItem(new Item("Apfel", "Aus dem Kühlhaus", 1.0, ""));
+        right.setItem(new Item("Mango", "Aus Peru eingeflogen", 1.0, ""));
         pane.add(left, 0, 0);
         pane.add(right, 1, 0);
     }
