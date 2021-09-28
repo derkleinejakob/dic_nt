@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.animation.AnimationTimer;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -72,8 +73,25 @@ public class GameView extends ApplicationView {
             sleeper.setOnSucceeded(event -> {
                 waiting = false;
                 if (correct) {
-                    left.switchTo(game.getItem1());
-                    right.setItem(game.getItem2());
+                    AnimationTimer textTimer = new AnimationTimer() {
+                        private double currentMargin;
+
+                        public void handle(long arg0) {
+                            if (this.currentMargin >= left.getWidth()) {
+                                GridPane.setMargin(left, null);
+                                GridPane.setMargin(right, null);
+                                left.switchTo(game.getItem1());
+                                right.setItem(game.getItem2());
+                                this.stop();
+                            } else {
+                                this.currentMargin += 20.0D;
+                                GridPane.setMargin(left, new Insets(0.0D, this.currentMargin, 0.0D, -this.currentMargin));
+                                GridPane.setMargin(right, new Insets(0.0D, this.currentMargin, 0.0D, -this.currentMargin));
+                            }
+
+                        }
+                    };
+                    textTimer.start();
                 } else {
                     getGUI().setPane(new LostView(getGUI(), game.getScore()));
                 }
