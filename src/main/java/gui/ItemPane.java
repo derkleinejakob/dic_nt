@@ -47,7 +47,8 @@ public class ItemPane extends BorderPane {
     public void switchTo(Item item) {
 //        setBackground(null);
         this.item = item;
-        setStyle("-fx-background-image: url(file:src/main/resources/" + item.image() + ");");
+        setBackground(new Background(new BackgroundImage(new Image("file:src/main/resources/" + item.image()), null, null, null, null)));
+        //setStyle("-fx-background-image: url(file:src/main/resources/" + item.image() + ");");
         titleLabel.setText(item.title());
         descriptionLabel.setText(item.description());
         emissionLabel.setText(item.emissions() + "g CO₂");
@@ -58,12 +59,12 @@ public class ItemPane extends BorderPane {
     }
 
     public void colorize(boolean isCorrect) {
-        setBackground(new Background(new BackgroundImage(dyeImage(new Image("file:src/main/resources/" + item.image()),Color.GREEN), null, null, null, null)));
+        setBackground(new Background(new BackgroundImage(dyeImage(new Image("file:src/main/resources/" + item.image()),(isCorrect ? Color.GREEN : Color.RED)), null, null, null, null)));
         //setStyle("-fx-background-color: " + (isCorrect ? "GREEN" : "RED") );
     }
 
     public static Image dyeImage(Image i, Color dye) {
-        WritableImage coloredImage = new WritableImage((int) i.getHeight(), (int) i.getWidth());
+        WritableImage coloredImage = new WritableImage((int) i.getWidth(), (int) i.getHeight());
         PixelWriter ir = coloredImage.getPixelWriter();
         PixelReader pr = i.getPixelReader(); //Der Pixel an der aktuellen Stelle im Originalbild
 
