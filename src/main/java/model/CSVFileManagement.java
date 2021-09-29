@@ -10,6 +10,11 @@ import java.util.stream.Collectors;
 
 public class CSVFileManagement implements FileManagement {
 
+    /**
+     * reads a list of ist of items from a textfile
+     * @param dataset URL of a textfile containing a list of information on different emitters
+     * @return an Arraylist of Items
+     */
     @Override
     public List<Item> retrieve(String dataset) {
         try {
@@ -20,6 +25,10 @@ public class CSVFileManagement implements FileManagement {
         }
     }
 
+    /**
+     * @param line information on a single emitter (name, description, emissions and imagepath), seperated by comma
+     * @return Item containing the given information
+     */
     private Item parseEntryFromLine(String line) {
         String[] tokens = line.split(","); //the attributes are separated with commas
         if (tokens.length < 3) {
