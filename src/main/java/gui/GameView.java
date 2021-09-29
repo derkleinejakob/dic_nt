@@ -13,18 +13,21 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import model.GameMode;
+import model.ItemSet;
 
 
 public class GameView extends ApplicationView {
+    private final ItemSet itemSet;
     private GameMode game;
     private BorderPane pane;
     private ItemPane left, right;
     private boolean waiting;
 
-    public GameView(MainGUI gui) {
+    public GameView(MainGUI gui, ItemSet set) {
         super(gui);
 
-        game = new GameMode();
+        itemSet = set;
+        game = new GameMode(itemSet.getDataset());
         GridPane centerPane = new GridPane();
         left = new ItemPane(event -> reactOnClick(false));
         right = new ItemPane(event -> reactOnClick(true));
@@ -71,7 +74,6 @@ public class GameView extends ApplicationView {
                 }
             };
             sleeper.setOnSucceeded(event -> {
-                waiting = false;
                 if (correct) {
                     AnimationTimer textTimer = new AnimationTimer() {
                         private double currentMargin;
@@ -83,6 +85,7 @@ public class GameView extends ApplicationView {
                                 left.switchTo(game.getItem1());
                                 right.setItem(game.getItem2());
                                 this.stop();
+                                waiting = false;
                             } else {
                                 this.currentMargin += 20.0D;
                                 GridPane.setMargin(left, new Insets(0.0D, this.currentMargin, 0.0D, -this.currentMargin));
@@ -93,7 +96,7 @@ public class GameView extends ApplicationView {
                     };
                     textTimer.start();
                 } else {
-                    getGUI().setPane(new LostView(getGUI(), game.getScore()));
+                    getGUI().setPane(new LostView(getGUI(), game.getScore(), itemSet));
                 }
             });
             new Thread(sleeper).start();

@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import model.ItemSet;
 
 public class MenuView extends ApplicationView {
     private VBox pane;
@@ -14,10 +15,22 @@ public class MenuView extends ApplicationView {
 
         Label title = new Label("Higher Impact!");
         title.setFont(new Font(50));
-        Button startButton = new Button("Los");
-        startButton.setOnAction(a -> getGUI().setPane(new GameView(getGUI())));
 
-        pane = new VBox(title, startButton);
+        class SetButton extends Button {
+            public SetButton(ItemSet set) {
+                setText(set.toString());
+                setOnAction(e -> getGUI().setPane(new GameView(getGUI(), set)));
+            }
+        }
+
+        SetButton[] setButtons = {
+            new SetButton(ItemSet.PRODUCTS),
+            new SetButton(ItemSet.COUNTRIES),
+        };
+
+        pane = new VBox(title);
+        pane.setSpacing(10);
+        pane.getChildren().addAll(setButtons);
         pane.setAlignment(Pos.CENTER);
     }
 

@@ -6,7 +6,4 @@ public record Item(
     double emissions,
     String image) {
 
-    public Item(){
-        this("Apfel", "Ein Apfel", 1.0, "");
-    }
 }

@@ -12,11 +12,5 @@ public interface FileManagement {
      * Returns a list of usage entries, retrieved from a csv file.
      * If there is no CSV file or an i/o problem, return an empty list
      */
-    List<Item> retrieve();
-
-    /**
-     * Appends one UsageEntry to the CSV file by adding a new line
-     */
-    boolean save(Item usageEntry);
-
+    List<Item> retrieve(String dataset);
 }

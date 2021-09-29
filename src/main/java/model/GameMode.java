@@ -11,8 +11,8 @@ public class GameMode {
 
     private IntegerProperty scoreProperty;
 
-    public GameMode(){
-        itemFetcher = new RandomItemFetcher();
+    public GameMode(String dataset){
+        itemFetcher = new RandomItemFetcher(dataset);
         item1 = itemFetcher.fetchItem();
         item2 = itemFetcher.fetchItem(item1);
         scoreProperty = new SimpleIntegerProperty(0);

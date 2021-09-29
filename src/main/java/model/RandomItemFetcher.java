@@ -7,8 +7,8 @@ import java.util.ArrayList;
 public class RandomItemFetcher {
     private List<Item> items;
 
-    public RandomItemFetcher(){
-        items = new CSVFileManagement().retrieve();
+    public RandomItemFetcher(String dataset){
+        items = new CSVFileManagement().retrieve(dataset);
     }
 
     public Item fetchItem(){
