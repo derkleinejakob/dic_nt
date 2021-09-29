@@ -9,15 +9,12 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import model.Item;
 
-import javax.imageio.ImageWriter;
-import java.awt.*;
-
-
 public class ItemPane extends BorderPane {
+    private Image backgroundImage;
     private Label titleLabel, emissionLabel, descriptionLabel;
     private Item item;
 
@@ -45,10 +42,9 @@ public class ItemPane extends BorderPane {
     }
 
     public void switchTo(Item item) {
-//        setBackground(null);
         this.item = item;
-        setBackground(new Background(new BackgroundImage(new Image("file:src/main/resources/" + item.image()), null, null, null, null)));
-        //setStyle("-fx-background-image: url(file:src/main/resources/" + item.image() + ");");
+        backgroundImage = new Image("file:src/main/resources/" + item.image());
+        setBackground(new Background(new BackgroundImage(backgroundImage, null, null, null, null)));
         titleLabel.setText(item.title());
         descriptionLabel.setText(item.description());
         emissionLabel.setText(item.emissions() + "g CO₂");
@@ -59,19 +55,27 @@ public class ItemPane extends BorderPane {
     }
 
     public void colorize(boolean isCorrect) {
-        setBackground(new Background(new BackgroundImage(dyeImage(new Image("file:src/main/resources/" + item.image()),(isCorrect ? Color.GREEN : Color.RED)), null, null, null, null)));
-        //setStyle("-fx-background-color: " + (isCorrect ? "GREEN" : "RED") );
+        Image colorized = isCorrect ?
+                dyeImage(backgroundImage, -0.5, +0.5, -0.5) :
+                dyeImage(backgroundImage, +0.5, -0.5, -0.5);
+
+        setBackground(new Background(new BackgroundImage(colorized, null, null, null, null)));
     }
 
-    public static Image dyeImage(Image i, Color dye) {
+    public static Image dyeImage(Image i, double r, double g, double b) {
         WritableImage coloredImage = new WritableImage((int) i.getWidth(), (int) i.getHeight());
         PixelWriter ir = coloredImage.getPixelWriter();
         PixelReader pr = i.getPixelReader(); //Der Pixel an der aktuellen Stelle im Originalbild
 
         for (int x = 0; x < i.getWidth(); x++) { //Alle Pixel werden durchgegangen
             for (int y = 0; y < i.getHeight(); y++) {
-                javafx.scene.paint.Color pc = pr.getColor(x,y);
-                ir.setColor(x,y,pc.darker());
+                Color pc = pr.getColor(x,y);
+                ir.setColor(x,y, new Color(
+                    Math.max(0, Math.min(1.0, pc.getRed() + r)),
+                    Math.max(0, Math.min(1.0, pc.getGreen() + g)),
+                    Math.max(0, Math.min(1.0, pc.getBlue() + b)),
+                    pc.getOpacity()).darker()
+                );
             }
         }
         return coloredImage;
