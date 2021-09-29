@@ -80,7 +80,7 @@ public class ItemPane extends BorderPane {
     public static Image darkenImage(Image i) {
         WritableImage coloredImage = new WritableImage((int) i.getWidth(), (int) i.getHeight());
         PixelWriter ir = coloredImage.getPixelWriter();
-        PixelReader pr = i.getPixelReader(); //read the pixels in the orignal image
+        PixelReader pr = i.getPixelReader(); //read the pixels in the original image
 
         for (int x = 0; x < i.getWidth(); x++) { //loop through all the pixels
             for (int y = 0; y < i.getHeight(); y++) {
