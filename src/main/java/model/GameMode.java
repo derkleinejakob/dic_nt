@@ -11,6 +11,9 @@ public class GameMode {
 
     private IntegerProperty scoreProperty;
 
+    /**
+     * @param dataset URL of the Dataset containing the Items compared in the Game
+     */
     public GameMode(String dataset){
         itemFetcher = new RandomItemFetcher(dataset);
         item1 = itemFetcher.fetchItem();
@@ -18,6 +21,10 @@ public class GameMode {
         scoreProperty = new SimpleIntegerProperty(0);
     }
 
+    /**
+     * @param rightClicked true if the Player clicked right, false if the Player clicked left
+     * @return true if the Player seleced the correct Item, false if the Player seleced the wrong Item
+     */
     public boolean receiveInput(boolean rightClicked){
         if (item1.emissions() == item2.emissions() || rightClicked == rightHigher()){
             item1 = item2;
@@ -28,6 +35,10 @@ public class GameMode {
             return false;
         }
     }
+
+    /**
+     * @return true if the right item emits more emissions, false if the left item emits more emissions
+     */
     public boolean rightHigher(){
         return (item1.emissions() >= item2.emissions());
     }
