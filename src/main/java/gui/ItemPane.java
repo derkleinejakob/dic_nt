@@ -52,6 +52,7 @@ public class ItemPane extends BorderPane {
     }
 
     public void colorize(boolean isCorrect) {
-        setBackground(new Background(new BackgroundFill(Paint.valueOf(isCorrect ? "GREEN" : "RED"), null, null)));
+        //setBackground(new Background(new BackgroundFill(Paint.valueOf(isCorrect ? "GREEN" : "RED"), null, null)));
+        setStyle("-fx-background-color: " + (isCorrect ? "GREEN" : "RED") );
     }
 }
