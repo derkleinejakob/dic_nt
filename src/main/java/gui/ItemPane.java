@@ -69,7 +69,7 @@ public class ItemPane extends BorderPane {
 
         for (int x = 0; x < i.getWidth(); x++) { //Alle Pixel werden durchgegangen
             for (int y = 0; y < i.getHeight(); y++) {
-                ir.setColor(x,y, pr.getColor(x, y).darker().darker().darker());
+                ir.setColor(x,y, pr.getColor(x, y).deriveColor(0, 1, 0.3, 1));
             }
         }
         return coloredImage;

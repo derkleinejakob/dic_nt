@@ -23,6 +23,11 @@ public class GameView extends ApplicationView {
     private ItemPane left, right;
     private boolean waiting;
 
+    /**
+     *
+     * @param gui
+     * @param set
+     */
     public GameView(MainGUI gui, ItemSet set) {
         super(gui);
 
