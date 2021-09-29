@@ -25,11 +25,11 @@ public class ItemPane extends BorderPane {
         setStyle("-fx-cursor: hand; ");
 
         titleLabel = new Label();
-        titleLabel.setFont(new Font(30));
+        titleLabel.setStyle("-fx-font-size: 30; -fx-text-fill: white");
         emissionLabel = new Label();
-        emissionLabel.setFont(new Font(50));
+        emissionLabel.setStyle("-fx-font-size: 50; -fx-text-fill: white");
         descriptionLabel = new Label();
-        descriptionLabel.setFont(new Font(15));
+        descriptionLabel.setStyle("-fx-font-size: 15; -fx-text-fill: white");
         VBox centerBox = new VBox(titleLabel, descriptionLabel, emissionLabel);
         centerBox.setAlignment(Pos.CENTER);
         setCenter(centerBox);
@@ -43,8 +43,8 @@ public class ItemPane extends BorderPane {
 
     public void switchTo(Item item) {
         this.item = item;
-        backgroundImage = new Image("file:src/main/resources/" + item.image());
-        setBackground(new Background(new BackgroundImage(backgroundImage, null, null, null, null)));
+        backgroundImage = darkenImage(new Image("file:src/main/resources/" + item.image()));
+        setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, null)));
         titleLabel.setText(item.title());
         descriptionLabel.setText(item.description());
         emissionLabel.setText(item.emissions() + "g CO₂");
@@ -59,7 +59,20 @@ public class ItemPane extends BorderPane {
                 dyeImage(backgroundImage, -0.5, +0.5, -0.5) :
                 dyeImage(backgroundImage, +0.5, -0.5, -0.5);
 
-        setBackground(new Background(new BackgroundImage(colorized, null, null, null, null)));
+        setBackground(new Background(new BackgroundImage(colorized, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, null)));
+    }
+
+    public static Image darkenImage(Image i) {
+        WritableImage coloredImage = new WritableImage((int) i.getWidth(), (int) i.getHeight());
+        PixelWriter ir = coloredImage.getPixelWriter();
+        PixelReader pr = i.getPixelReader(); //Der Pixel an der aktuellen Stelle im Originalbild
+
+        for (int x = 0; x < i.getWidth(); x++) { //Alle Pixel werden durchgegangen
+            for (int y = 0; y < i.getHeight(); y++) {
+                ir.setColor(x,y, pr.getColor(x, y).darker().darker().darker());
+            }
+        }
+        return coloredImage;
     }
 
     public static Image dyeImage(Image i, double r, double g, double b) {

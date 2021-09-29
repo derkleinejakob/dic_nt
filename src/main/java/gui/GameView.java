@@ -96,7 +96,7 @@ public class GameView extends ApplicationView {
                     };
                     textTimer.start();
                 } else {
-                    getGUI().setPane(new LostView(getGUI(), game.getScore(), itemSet));
+                    getGUI().setCenter(new LostView(getGUI(), game.getScore(), itemSet));
                 }
             });
             new Thread(sleeper).start();

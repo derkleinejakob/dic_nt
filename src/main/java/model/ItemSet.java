@@ -1,8 +1,8 @@
 package model;
 
 public enum ItemSet {
-    PRODUCTS("Produkte", "dataset.csv"),
-    COUNTRIES("Länder", "dataset.csv");
+    PRODUCTS("Produkte", "src/main/resources/data/items.csv"),
+    COUNTRIES("Länder", "src/main/resources/data/countries.csv");
 
     private final String name, dataset;
 

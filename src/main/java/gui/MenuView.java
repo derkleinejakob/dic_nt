@@ -3,6 +3,7 @@ package gui;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -19,7 +20,8 @@ public class MenuView extends ApplicationView {
         class SetButton extends Button {
             public SetButton(ItemSet set) {
                 setText(set.toString());
-                setOnAction(e -> getGUI().setPane(new GameView(getGUI(), set)));
+                setOnAction(e -> getGUI().setCenter(new GameView(getGUI(), set)));
+                setFont(new Font(30));
             }
         }
 
@@ -28,9 +30,12 @@ public class MenuView extends ApplicationView {
             new SetButton(ItemSet.COUNTRIES),
         };
 
-        pane = new VBox(title);
+        HBox buttonBox = new HBox(setButtons);
+        buttonBox.setSpacing(10);
+        buttonBox.setAlignment(Pos.CENTER);
+
+        pane = new VBox(title, buttonBox);
         pane.setSpacing(10);
-        pane.getChildren().addAll(setButtons);
         pane.setAlignment(Pos.CENTER);
     }
 

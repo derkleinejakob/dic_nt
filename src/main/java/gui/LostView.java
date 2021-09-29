@@ -19,9 +19,11 @@ public class LostView extends ApplicationView {
         Label scoreLabel = new Label("Dein Score war "+score+".");
         scoreLabel.setFont(new Font(30));
         Button retry = new Button("Nochmal!");
-        retry.setOnAction(e -> getGUI().setPane(new GameView(getGUI(), mode)));
+        retry.setFont(new Font(30));
+        retry.setOnAction(e -> getGUI().setCenter(new GameView(getGUI(), mode)));
         Button menu = new Button("Menü");
-        menu.setOnAction(e -> getGUI().setPane(new MenuView(getGUI())));
+        menu.setFont(new Font(30));
+        menu.setOnAction(e -> getGUI().setCenter(new MenuView(getGUI())));
 
         pane = new VBox(titleLabel, scoreLabel, menu, retry);
         pane.setSpacing(10);

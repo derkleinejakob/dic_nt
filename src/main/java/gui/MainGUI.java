@@ -5,27 +5,32 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+/**
+ * The main window of the application.
+ */
 public class MainGUI extends Application {
     public static void startApp(String[] args) {
         launch(args);
     }
+
+    //the scene contains only this one pane, whose center can be changed
     private BorderPane mainPane;
 
     @Override
     public void start(Stage primaryStage) {
         mainPane = new BorderPane();
         Scene mainScene = new Scene(mainPane);
-        setPane(new MenuView(this));
+        setCenter(new MenuView(this));
 
-        primaryStage.setTitle("Higher Impact - prototyp 0.0");
+        primaryStage.setTitle("Higher Impact!");
         primaryStage.setScene(mainScene);
-//        primaryStage.setResizable(false);
-//        primaryStage.setOnCloseRequest(closeEvent -> ApplicationUI.gameBoardUI().quitGame());
         primaryStage.show();
     }
 
-    public void setPane(ApplicationView view) {
+    /**
+     * Changes the view displayed in the center of the window (e.g. gameplay / menu)
+     */
+    public void setCenter(ApplicationView view) {
         mainPane.setCenter(view.getPane());
     }
-
 }
