@@ -44,8 +44,14 @@ public class ItemPane extends BorderPane {
      * Change the item that is displayed in this item pane
      */
     public void switchTo(Item item) {
-        backgroundImage = darkenImage(new Image("file:src/main/resources/" + item.image()));
-        setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, null)));
+        backgroundImage = new Image("file:src/main/resources/" + item.image());
+
+        if(backgroundImage.isError()) {
+            setBackground(new Background(new BackgroundFill(Color.DARKGRAY, null, null)));
+        } else {
+            backgroundImage = darkenImage(backgroundImage);
+            setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, null)));
+        }
 
         titleLabel.setText(item.title());
         descriptionLabel.setText(item.description());
@@ -60,11 +66,15 @@ public class ItemPane extends BorderPane {
     }
 
     public void colorize(boolean isCorrect) {
-        Image colorized = isCorrect ?
-                dyeImage(backgroundImage, -0.5, +0.5, -0.5) :
-                dyeImage(backgroundImage, +0.5, -0.5, -0.5);
+        if (backgroundImage.isError()) {
+            setBackground(new Background(new BackgroundFill(isCorrect ? Color.DARKGREEN : Color.DARKRED, null, null)));
+        } else {
+            Image colorized = isCorrect ?
+                    dyeImage(backgroundImage, -0.5, +0.5, -0.5) :
+                    dyeImage(backgroundImage, +0.5, -0.5, -0.5);
 
-        setBackground(new Background(new BackgroundImage(colorized, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, null)));
+            setBackground(new Background(new BackgroundImage(colorized, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, null)));
+        }
     }
 
     public static Image darkenImage(Image i) {
