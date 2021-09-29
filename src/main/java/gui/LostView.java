@@ -11,6 +11,12 @@ import model.ItemSet;
 public class LostView extends ApplicationView {
     private VBox pane;
 
+    /**
+     * A game over view.
+     * @param score the score that the player has achieved
+     * @param mode the game mode that the player was in is also passed, so that the user can choose to play again
+     *             without needing to go back to the menu.
+     */
     public LostView(MainGUI gui, int score, ItemSet mode) {
         super(gui);
 

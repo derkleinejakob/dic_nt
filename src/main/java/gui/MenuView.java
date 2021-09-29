@@ -10,13 +10,17 @@ import javafx.scene.text.Font;
 import model.ItemSet;
 
 public class MenuView extends ApplicationView {
-    private VBox pane;
+    private final VBox pane;
+
     public MenuView(MainGUI gui) {
         super(gui);
 
         Label title = new Label("Higher Impact!");
         title.setFont(new Font(50));
 
+        /*
+        to keep the code expandable: if more game modes were to come, they can be added by adding another SetButton
+         */
         class SetButton extends Button {
             public SetButton(ItemSet set) {
                 setText(set.toString());
