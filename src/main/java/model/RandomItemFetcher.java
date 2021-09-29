@@ -11,6 +11,9 @@ public class RandomItemFetcher {
         items = new CSVFileManagement().retrieve(dataset);
     }
 
+    /**
+     * @return a random Item from an Itemlist
+     */
     public Item fetchItem(){
         if(items.size() == 0) {
             throw new IllegalArgumentException("No items loaded!");
@@ -18,6 +21,11 @@ public class RandomItemFetcher {
         int rd = new Random().nextInt(items.size());
         return items.get(rd);
     }
+
+    /**
+     * @param comp a refrence Item that will not be selected
+     * @return a random Item from an Itemlist
+     */
     public Item fetchItem(Item comp){
         Item it = fetchItem();
         while (it==comp){
